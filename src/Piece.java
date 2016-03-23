@@ -26,13 +26,4 @@ public class Piece {
         }
         return true;
     }
-
-    public static void main(String[] args){
-
-        Piece caballo = new Piece(new Position(1,1,false));;
-
-        boolean isvalid = caballo.isValid(caballo.getPosition(), new Position(-1,2, true));
-        System.out.println(isvalid);
-
-    }
 }
