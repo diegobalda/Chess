@@ -35,4 +35,13 @@ public class Position {
     public void setAvailable(boolean available) {
         this.available = available;
     }
+
+    public void print(){
+        System.out.println("(" + x + "," + y + ")");
+    }
+
+    public static void main(String[] args){
+        Position hola = new Position(1,2,true);
+        hola.print();
+    }
 }

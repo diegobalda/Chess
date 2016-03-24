@@ -4,7 +4,7 @@
 public class Board {
 
     private Position[][] board = new Position[8][8];
-    private Pila<Position> positions = new Pila<Position>();
+    private Stack<Position> positions = new Stack<Position>();
 
     public Board() {
         initialize();

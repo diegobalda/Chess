@@ -1,4 +1,4 @@
-public class Piece {
+public abstract class Piece {
 
     private Position currentPosition;
     private Stack<Position> posibleMoves;
@@ -28,7 +28,7 @@ public class Piece {
         if(start.getX() == end.getX() && start.getY() == end.getY()){
             return false;
         }
-        if(end.getX() < 0 || end.getX() > 7 || end.getY() < 0 || end.getY() > 7){
+        if(end.getX() < 1 || end.getX() > 8 || end.getY() < 1 || end.getY() > 8){
             return false;
         }
         return true;
@@ -36,7 +36,7 @@ public class Piece {
 
     public Stack<Position> whereToMove(){
         for(int i=0; i<Xmoves.length; i++){
-            Position newPosition = currentPosition;
+            Position newPosition = new Position(currentPosition.getX(), currentPosition.getY(), true);
             newPosition.setX(currentPosition.getX() + Xmoves[i]);
             newPosition.setY(currentPosition.getY() + Ymoves[i]);
             if(!isValid(currentPosition, newPosition))
