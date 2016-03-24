@@ -1,9 +1,10 @@
 /**
- * Created by nicurat on 3/22/16.
+ * Created by brunodeluca on 3/23/16.
  */
 public class Board {
 
     private Position[][] board = new Position[8][8];
+    private Pila<Position> positions = new Pila<Position>();
 
     public Board() {
         initialize();
@@ -16,6 +17,10 @@ public class Board {
             }
         }
     }
+
+//    public Position[] possibleMoves(Piece piece){
+//
+//    }
 
     public Position getPosition(int x, int y){
         return board[x][y];

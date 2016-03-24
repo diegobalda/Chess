@@ -1,8 +1,7 @@
 /**
- * Created by nicurat on 3/22/16.
+ * Created by brunodeluca on 3/23/16.
  */
 public class Position {
-
     private int x;
     private int y;
     private boolean available;

@@ -1,5 +1,3 @@
-package javadb_001;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JFrame;
