@@ -17,6 +17,15 @@ public class Stack<T> implements Iterable<T> {
         n = 0;
     }
 
+    public T getNode(int num){
+        if(num < 0 || num > n) throw new IndexOutOfBoundsException();
+        T elem = null;
+        Iterator it = this.iterator();
+        while(it.hasNext())
+            elem = (T) it.next();
+        return elem;
+    }
+
     public boolean isEmpty(){
         return first == null;
     }
@@ -34,7 +43,7 @@ public class Stack<T> implements Iterable<T> {
     }
 
     public T pop(){
-        if(isEmpty()) throw new RuntimeException("Stack underflow");
+        if(isEmpty()) throw new RuntimeException("The stack is EMPTY");
         T item = first.item;
         first = first.next;
         n--;
@@ -42,7 +51,7 @@ public class Stack<T> implements Iterable<T> {
     }
 
     public T peek(){
-        if(isEmpty()) throw new RuntimeException("Stack underflow");
+        if(isEmpty()) throw new RuntimeException("Stack Underflow");
         return first.item;
     }
 
@@ -54,11 +63,11 @@ public class Stack<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator iterator() {
         return new ListIterator();
     }
 
-    private class ListIterator implements Iterator<T>{
+    private class ListIterator implements Iterator{
         private Node current = first;
 
         @Override
