@@ -1,48 +1,52 @@
-public abstract class Piece {
+package Posta;
 
+/**
+ * Created by brunodeluca on 3/28/16.
+ */
+public class Piece {
+    protected int[] Xmoves;
+    protected int[] Ymoves;
     private Position currentPosition;
-    private Stack<Position> posibleMoves;
-    private int[] Xmoves;
-    private int[] Ymoves;
 
-    public Piece(Position position, int[] Xmoves, int[] Ymoves) {
+    public Piece(Position position) {
         this.currentPosition = position;
-        posibleMoves = new Stack<Position>();
-        this.Xmoves = Xmoves;
-        this.Ymoves = Ymoves;
     }
 
-    public Position getCurrentPosition(){ return this.currentPosition; }
+    public int[] getXmoves() {
+        return Xmoves;
+    }
+
+    public int[] getYmoves() {
+        return Ymoves;
+    }
+
+    public void setXmoves(int[] xmoves) {
+        Xmoves = xmoves;
+    }
+
+    public void setYmoves(int[] ymoves) {
+        Ymoves = ymoves;
+    }
+
+    public Position getCurrentPosition(){return this.currentPosition;}
 
     public void setCurrentPosition(Position position){this.currentPosition = position;}
 
-    public Position getPosition() {
-        return currentPosition;
+    public static boolean isValid(Position pos, int[][] board){
+        return (pos.getX() >= 0 && pos.getX() < Board.DIMENSION && pos.getY() >= 0 && pos.getY() < Board.DIMENSION && board[pos.getX()][pos.getY()] == -1);
     }
 
-    public void setPosition(Position position) {
-        this.currentPosition = position;
+    public Stack<Position> posibleMoves(Position position){
+        Stack<Position> posibleMoves = new Stack<Position>();
+        int next_x;
+        int next_y;
+        for(int i = 0; i < 8; i++){
+            next_x = position.getX() + Xmoves[i];
+            next_y = position.getY() + Ymoves[i];
+            if(isValid(new Position(next_x,next_y), Board.board))
+                posibleMoves.push(new Position(next_x,next_y));
+        }
+        return posibleMoves;
     }
 
-    public boolean isValid(Position start, Position end){
-        if(start.getX() == end.getX() && start.getY() == end.getY()){
-            return false;
-        }
-        if(end.getX() < 1 || end.getX() > 8 || end.getY() < 1 || end.getY() > 8){
-            return false;
-        }
-        return true;
-    }
-
-    public Stack<Position> whereToMove(){
-        for(int i=0; i<Xmoves.length; i++){
-            Position newPosition = new Position(currentPosition.getX(), currentPosition.getY(), true);
-            newPosition.setX(currentPosition.getX() + Xmoves[i]);
-            newPosition.setY(currentPosition.getY() + Ymoves[i]);
-            if(!isValid(currentPosition, newPosition))
-                continue;
-            posibleMoves.push(newPosition);
-        }
-        return this.posibleMoves;
-    }
 }

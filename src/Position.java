@@ -1,15 +1,15 @@
+package Posta;
+
 /**
- * Created by brunodeluca on 3/23/16.
+ * Created by brunodeluca on 3/28/16.
  */
 public class Position {
     private int x;
     private int y;
-    private boolean available;
 
-    public Position(int x, int y, boolean available) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
-        this.available = available;
     }
 
     public int getX() {
@@ -28,20 +28,13 @@ public class Position {
         this.y = y;
     }
 
-    public boolean isAvailable() {
-        return available;
-    }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public void print(){
-        System.out.println("(" + x + "," + y + ")");
+    public String print(){
+        return "|(" + x + "," + y + ")|";
     }
 
     public static void main(String[] args){
-        Position hola = new Position(1,2,true);
+        Position hola = new Position(1,2);
         hola.print();
     }
 }

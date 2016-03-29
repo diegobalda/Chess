@@ -1,34 +1,28 @@
-import com.javafx.tools.doclets.formats.html.SourceToHTMLConverter;
-import oracle.jrockit.jfr.JFR;
+package Posta;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.EventListener;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
+import java.util.*;
 
-/**
- * Created by diegobaldassare on 3/22/16.
- */
 public class Work extends JFrame{
-
+    Game game = new Game();
     JFrame frame = new JFrame();
     JPanel content = new JPanel();
+    JPanel content2 = new JPanel();
     JPanel one = new JPanel();
     JPanel two = new JPanel();
+    JPanel three = new JPanel();
     ChessWork chess = new ChessWork(0,0);
-    int[][] sol;
+    private int count = 0;
 
     public void display(){
-        KnightTour.answer();
-        this.sol = KnightTour.sol;
         frame.setTitle("Kight Move - Bruno De Luca, Nicolas Curat, Diego Baldassare");
         frame.setVisible(true);
         frame.setSize(1000,600);
@@ -36,41 +30,41 @@ public class Work extends JFrame{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
 
-
-
         one.add(chess);
         JButton button = new JButton("Siguiente");
         button.addActionListener(new ButtonListener());
+
         two.add(button);
-        two.setLayout(new GridBagLayout());
-        content.setLayout(new GridLayout(1,2));
+        three.setLayout(new BoxLayout(three, BoxLayout.PAGE_AXIS));
+        three.add(new Stacks());
+        two.setLayout(new BoxLayout(two, BoxLayout.PAGE_AXIS));
+        content2.setLayout(new GridLayout(2,1));
+        content2.add(two);
+        content2.add(three);
+        content.setLayout(new GridLayout(1,1));
         content.add(one);
-        content.add(two);
+        content.add(content2);
 
         frame.add(content);
-
-
-
     }
 
     private class ButtonListener implements ActionListener{
-        private int count = 1;
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            for(int i = 0; i < sol.length;i++){
-                for(int j = 0; j < sol[i].length ;j++){
-                    if(sol[i][j] == count){
-                        chess.x = j;
-                        chess.y = i;
-                        count++;
-                        SwingUtilities.updateComponentTreeUI(frame);
-                        return;
-                    }
-                }
-            }
-
-            System.out.println("end of moves");
-
+            if(count < 4){
+                Position lastPosition = game.getLastPosition();
+                Piece piece = game.getBoard().getPiece();
+                piece.setCurrentPosition(lastPosition);
+                Board.board[lastPosition.getX()][lastPosition.getY()] = 0;
+                game.setGamePositions(piece.posibleMoves(piece.getCurrentPosition()));
+                chess.x = piece.getCurrentPosition().getX();
+                chess.y = piece.getCurrentPosition().getY();
+                game.printLastStack();
+                SwingUtilities.updateComponentTreeUI(frame);
+                count++;
+            }else
+                System.out.println("No more movements");
         }
     }
 
@@ -109,13 +103,16 @@ public class Work extends JFrame{
 
 
             try{
-                BufferedImage image = ImageIO.read(new File(getClass().getResource("Images/Knight.png").toURI()));
+                BufferedImage image = ImageIO.read(new File(getClass().getResource("../Images/Knight.png").toURI()));
                 g.drawImage(image,(75 + x*50),(75 + y*50), 50, 50,null);
             }catch(URISyntaxException e){
                 System.out.println(e.getMessage());
             }catch(IOException e){
                 System.out.println(e.getMessage());
             }
+
+
+
 
         }
 
@@ -124,7 +121,14 @@ public class Work extends JFrame{
             return new Dimension(500, 500);
         }
     }
-
-
-
+    private class Stacks extends JPanel{
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            String stack = game.printLastStack();
+            JLabel lable = new JLabel(stack);
+        }
+        public Dimension getPreferredSize() {
+            return new Dimension(500, 500);
+        }
+    }
 }
