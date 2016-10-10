@@ -1,5 +1,8 @@
-package Posta;
+package backend;
 
+import fronted.JTextAreaFromBottom;
+
+import javax.swing.*;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -11,6 +14,10 @@ public class Stack<T> implements Iterable<T> {
     private class Node{
         private T item;
         private Node next;
+
+        public String print(){
+            return item + "";
+        }
     }
 
     public Stack(){
@@ -31,7 +38,7 @@ public class Stack<T> implements Iterable<T> {
         return first == null;
     }
 
-    public int size(){
+    public int sizes(){
         return n;
     }
 
